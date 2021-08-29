@@ -1,0 +1,181 @@
+openapi: 3.0.0
+info:
+  title: Qooper API Documentation
+  version: 0.0.1
+servers:
+  - url: http://0.0.0.0:9000/api
+    description:
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT  # optional, for documentation purposes only
+security:
+  - bearerAuth: []    
+paths:
+  /authorization/login:
+    post:
+      summary: Login request
+      requestBody:
+        content:
+          application/json:
+            schema: 
+              type: object
+            example:
+              username: user
+              password: "123456"
+      responses:
+        '200': # status code
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user: 
+                    type: object
+                    description: user object
+                  status:
+                    type: boolean
+                    description: response status
+        '400': # status code
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    enum: [false]
+                    description: response status
+  /todo:
+    get:
+      summary: Todo get request
+      responses:
+        '200': # status code
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  todos: 
+                    type: array
+                    description: todo array
+                  status:
+                    type: boolean
+                    description: response status
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    enum: [false]
+                    description: response status
+    post:
+      summary: Todo create request
+      requestBody:
+        content:
+          application/json:
+            schema: 
+              type: object
+            example:
+              content: my todo content
+      responses:
+        '200': # status code
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  todo: 
+                    type: object
+                    description: tood object
+                  status:
+                    type: boolean
+                    description: response status
+        '400': # status code
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    enum: [false]
+                    description: response status
+  /todo/{todoId}:
+    put:
+      summary: Todo update request
+      parameters:
+        - in: path
+          name: todoId
+          schema:
+            type: string
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema: 
+              type: object
+            example:
+              content: todo content
+              status: true
+      responses:
+        '200': # status code
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  todo: 
+                    type: object
+                    description: todo object
+                  status:
+                    type: boolean
+                    description: response status
+        '400': # status code
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    enum: [false]
+                    description: response status
+    delete:
+      summary: Todo delete request
+      parameters:
+        - in: path
+          name: todoId
+          schema:
+            type: string
+          required: true
+      responses:
+        '200': # status code
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    description: response status
+        '400': # status code
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    enum: [false]
+                    description: response status
